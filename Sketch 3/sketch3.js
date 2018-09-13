@@ -4,7 +4,7 @@ function setup(){
 	mySound = createAudio("sound.mp3");
 	bubble = {
 		x: width/2,
-		y: height/2
+		y: height/2,
 		r: 15
 	};
 	createCanvas(720, 480);
