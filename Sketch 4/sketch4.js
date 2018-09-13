@@ -1,12 +1,14 @@
 // stolen from example
 // https://p5js.org/reference/#/p5.FFT
 
+var waveform;
+
 function preload(){
   sound = loadSound('sound.mp3');
 }
 
 function setup(){
-  var cnv = createCanvas(100,100);
+  var cnv = createCanvas(720, 480);
   cnv.mouseClicked(togglePlay);
   fft = new p5.FFT();
   sound.amp(0.2);
@@ -24,10 +26,10 @@ function draw(){
     rect(x, height, width / spectrum.length, h )
   }
 
-  var waveform = fft.waveform();
+  waveform = fft.waveform();
   noFill();
   beginShape();
-  stroke(255,0,0); // waveform is red
+  stroke(255,255,0); // waveform is red
   strokeWeight(1);
   for (var i = 0; i< waveform.length; i++){
     var x = map(i, 0, waveform.length, 0, width);
