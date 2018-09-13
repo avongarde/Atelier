@@ -8,6 +8,8 @@ function draw(){
 
 function mouseClicked(){
 	if(mouseX < width/2 + 15 && mouseX > width/2 - 15){
-		fill(100);
+		if(mouseY < height/2 + 15 && mouseY > height/2 - 15){
+			fill(100);
+		}
 	}
 }
