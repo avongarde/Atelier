@@ -1,7 +1,7 @@
 var mySound;
 
 function setup(){
-	mySound = createAudio("sound.mp3");
+	mySound = createAudio('sound.mp3');
 	bubble = {
 		x: width/2,
 		y: height/2,
@@ -25,9 +25,10 @@ function draw(){
 }
 
 function mouseClicked(){
-	var clickDistance = dist(width/2, height/2, mouseX, mouseY);
+	var clickDistance = dist(bubble.x, bubble.y, mouseX, mouseY);
 	if(clickDistance < bubble.r){
 		fill(100);
 		mySound.play();
+		console.log(mySound);
 	}
 }
