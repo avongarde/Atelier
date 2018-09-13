@@ -12,7 +12,7 @@ function draw(){
 	}
 }
 
-function mouseClicked(){
+function mouseDragged(){
 	var clickedPosition = {
 		x: mouseX,
 		y: mouseY,
