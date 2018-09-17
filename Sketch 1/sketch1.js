@@ -1,19 +1,28 @@
-var x = random(width);
-var y = random(height);
+// references mic input example
+// https://p5js.org/examples/sound-mic-input.html
 
-function setup(){
-    createCanvas(720, 480);
+var mic;
+
+function setup() {
+  createCanvas(720, 480);
+
+  // Create an Audio input
+  mic = new p5.AudioIn();
+
+  // start the Audio Input.
+  // By default, it does not .connect() (to the computer speakers)
+  mic.start();
 }
 
 function draw() {
-	//background(100, 20, 255);
-    noStroke();
+  //background(200);
 
-	colorMode(HSB, 100);
-	for (var i = 0; i < 100; i++) {
-    	for (var j = 0; j < 100; j++) {
-    		stroke(i, j, 100);
-    		point(i, j);
-  		}
-    }
+  // Get the overall volume (between 0 and 1.0)
+  var vol = mic.getLevel();
+  fill(127);
+  stroke(0);
+
+  // Draw an ellipse with height based on volume
+  var h = map(vol, 0, 1, height, 0);
+  ellipse(width/2, h - 25, 50, 50);
 }
