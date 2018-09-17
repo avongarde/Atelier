@@ -1,28 +1,40 @@
-// references mic input example
+// references mic input example & pointillism example
+// https://p5js.org/examples/image-pointillism.html by Dan Shiffman
 // https://p5js.org/examples/sound-mic-input.html
 
 var mic;
+var img;
+var smallPoint, largePoint;
+
+function preload() {
+  img = loadImage("image.jpg");
+}
 
 function setup() {
-  createCanvas(720, 480);
+  createCanvas(window.innerWidth, window.innerHeight);
 
-  // Create an Audio input
+  smallPoint = 4;
+  largePoint = 40;
+  imageMode(CENTER);
+  noStroke();
+  background(255);
+  img.loadPixels();
+
   mic = new p5.AudioIn();
-
-  // start the Audio Input.
   // By default, it does not .connect() (to the computer speakers)
   mic.start();
 }
 
 function draw() {
-  //background(200);
-
   // Get the overall volume (between 0 and 1.0)
   var vol = mic.getLevel();
-  fill(127);
-  stroke(0);
+  
+  var pointillize = map(vol, 0, 1, smallPoint, largePoint);
+  console.log(pointillize);
 
-  // Draw an ellipse with height based on volume
-  var h = map(vol, 0, 1, height, 0);
-  ellipse(width/2, h - 25, 50, 50);
+  var x = floor(random(img.width));
+  var y = floor(random(img.height));
+  var pix = img.get(x, y);
+  fill(pix, 128);
+  ellipse(x, y, pointillize, pointillize);
 }
