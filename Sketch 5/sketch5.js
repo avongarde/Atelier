@@ -1,51 +1,27 @@
-// stolen from example
-// https://p5js.org/reference/#/p5.FFT
+// references Directional Lights example
+// https://p5js.org/examples/lights-directional.html
 
-var waveform;
+// read up on WebGL here
+// https://github.com/processing/p5.js/wiki/Getting-started-with-WebGL-in-p5
 
-function preload(){
-  sound = loadSound('sound.mp3');
-}
+var radius = 200;
 
 function setup(){
-  var cnv = createCanvas(720, 480);
-  cnv.mouseClicked(togglePlay);
-  fft = new p5.FFT();
-  sound.amp(0.2);
+	createCanvas(window.innerWidth, window.innerHeight, WEBGL);
 }
 
 function draw(){
-  background(0);
-
-  var spectrum = fft.analyze();
-  noStroke();
-  fill(255,255,0); // spectrum is green
-  for (var i = 0; i< spectrum.length; i++){
-    var x = map(i, 0, spectrum.length, 0, width);
-    var h = -height + map(spectrum[i], 0, 255, height, 0);
-    rect(x, height, width / spectrum.length, h )
-  }
-
-  waveform = fft.waveform();
-  noFill();
-  beginShape();
-  stroke(255,255,0); // waveform is red
-  strokeWeight(1);
-  for (var i = 0; i< waveform.length; i++){
-    //var x = map(i, 0, waveform.length, 0, width);
-    //var y = map( waveform[i], -1, 1, 0, height);
-    vertex(i, waveform[i] * height + height/2);
-  }
-  endShape();
-
-  text('click to play/pause', 4, 10);
+	noStroke();
+	background(0);
+	var dirY = (mouseY / height - 1) * 5;
+	var dirX = (mouseX / width - 1) * 5;
+	directionalLight(250, 250, 250, dirX, dirY, 1);
+	ambientMaterial(250);
+	translate(-1.5 * radius, 0, 0);
+	rotateX(millis() / 1000);
+	cone(radius);
+	translate(3 * radius, 0, 0);
+	rotateX(millis() / 2000);
+	cone(radius);
 }
 
-// fade sound if mouse is over canvas
-function togglePlay() {
-  if (sound.isPlaying()) {
-    sound.pause();
-  } else {
-    sound.loop();
-  }
-}
