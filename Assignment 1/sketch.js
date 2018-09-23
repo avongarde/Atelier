@@ -24,14 +24,18 @@ function symbol(x, y, speed){
 	this.y = y;
 	this.value;
 	this.speed = speed;
+	this.switchInterval = round(random(2, 20));
 
 	this.randomSymbol = function(){
 		// Draws from the Katakana Unciode block (96 characters)
 		// https://en.wikipedia.org/wiki/Katakana_(Unicode_block)
 
-		// 0x030A0 (12448) will be added to a random whole between 0 and 96 
-		// Converted to a string and set to this.value
-		this.value = String.fromCharCode(0x30A0 + round(random(0, 96)));
+		// Whenever this.switchInterval divides evenly into frameCount then execute
+		if(frameCount % this.switchInterval == 0){
+			// 0x030A0 (12448) will be added to a random whole between 0 and 96 
+			// Converted to a string and set to this.value
+			this.value = String.fromCharCode(0x30A0 + round(random(0, 96)));
+		}
 	}
 
 	this.appear = function(){
@@ -39,11 +43,17 @@ function symbol(x, y, speed){
 		text(this.value, this.x, this.y);
 		// Invoked in the draw function
 		this.rain();
+		this.randomSymbol();
 	}
 
 	this.rain = function(){
 		// Increment the y position of the symbol object according to the speed
-		this.y += this.speed;
+		// 
+		if(this.y >= height){
+			this.y = 0;
+		} else {
+			this.y += this.speed;
+		}
 	}
 }
 
