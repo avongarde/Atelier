@@ -2,24 +2,28 @@
 // References https://www.youtube.com/watch?v=S1TQCi9axzg&t=13s
 
 var symbol;
+var symbolSize = 60;
 
 function setup(){
 	createCanvas(window.innerWidth, window.innerHeight);
 	background(0);
 	// 
-	symbol = new symbol(width/2, height/2);
+	symbol = new symbol(width/2, 0, random(5, 10));
 	symbol.randomSymbol();
+	textSize(symbolSize); 
 }
 
 function draw(){
+	background(0);
 	symbol.appear();
 }
 
-function symbol(x, y){
+function symbol(x, y, speed){
 	// 
 	this.x = x;
 	this.y = y;
 	this.value;
+	this.speed = speed;
 
 	this.randomSymbol = function(){
 		// Draws from the Katakana Unciode block (96 characters)
@@ -33,6 +37,13 @@ function symbol(x, y){
 	this.appear = function(){
 		fill(0, 255, 60);
 		text(this.value, this.x, this.y);
+		// Invoked in the draw function
+		this.rain();
+	}
+
+	this.rain = function(){
+		// Increment the y position of the symbol object according to the speed
+		this.y += this.speed;
 	}
 }
 
