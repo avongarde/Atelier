@@ -1,24 +1,26 @@
 // Francisco Samayoa ~ Matrix Digital Rain
 // References https://www.youtube.com/watch?v=S1TQCi9axzg&t=13s
 
-var symbol;
+// var symbol;
 var symbolSize = 60;
+var stream;
 
 function setup(){
 	createCanvas(window.innerWidth, window.innerHeight);
 	background(0);
-	// 
-	symbol = new symbol(width/2, 0, random(5, 10));
-	symbol.randomSymbol();
+	stream = new Stream();
+	stream.generateSymbols();
 	textSize(symbolSize); 
+
 }
 
 function draw(){
 	background(0);
-	symbol.appear();
+	stream.appear();
+	print(stream);
 }
 
-function symbol(x, y, speed){
+function Symbol(x, y, speed){
 	// 
 	this.x = x;
 	this.y = y;
@@ -38,14 +40,6 @@ function symbol(x, y, speed){
 		}
 	}
 
-	this.appear = function(){
-		fill(0, 255, 60);
-		text(this.value, this.x, this.y);
-		// Invoked in the draw function
-		this.rain();
-		this.randomSymbol();
-	}
-
 	this.rain = function(){
 		// Increment the y position of the symbol object according to the speed
 		// 
@@ -57,6 +51,37 @@ function symbol(x, y, speed){
 	}
 }
 
-function stream(){
+function Stream(){
+	//
+	this.symbols = [];
+	this.totalSymbols = round(random(5, 30));
+	this.speed = random(5, 20);
 
+	this.generateSymbols = function(){
+		var y = 0;
+		var x = width/2;
+
+		for(var i = 0; i <= this.totalSymbols; i++){
+			// 
+			symbol = new Symbol(x, y, this.speed);
+			symbol.randomSymbol();
+			this.symbols.push(symbol);
+
+			y -= symbolSize;
+		}
+	}
+
+	this.appear = function(){
+		//
+		// Invoked in the draw function
+		this.symbols.forEach(function(symbol){
+			fill(0, 255, 60);
+			text(symbol.value, symbol.x, symbol.y);
+			symbol.rain();
+			symbol.randomSymbol();
+		});
+	}
 }
+
+
+
