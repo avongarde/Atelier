@@ -2,22 +2,29 @@
 // References https://www.youtube.com/watch?v=S1TQCi9axzg&t=13s
 
 // var symbol;
-var symbolSize = 60;
-var stream;
+var symbolSize = 20;
+var streams = [];
 
 function setup(){
 	createCanvas(window.innerWidth, window.innerHeight);
 	background(0);
-	stream = new Stream();
-	stream.generateSymbols();
+	var x = 0;
+	var y = 0;
+	for(var i = 0; i <= width / symbolSize; i++){
+		var stream = new Stream();
+		stream.generateSymbols(x, y);
+		streams.push(stream);
+		x += symbolSize;
+	}
 	textSize(symbolSize); 
-
 }
 
 function draw(){
 	background(0);
-	stream.appear();
-	print(stream);
+	//
+	streams.forEach(function(stream){
+		stream.appear();
+	});
 }
 
 function Symbol(x, y, speed){
@@ -54,12 +61,10 @@ function Symbol(x, y, speed){
 function Stream(){
 	//
 	this.symbols = [];
-	this.totalSymbols = round(random(5, 30));
-	this.speed = random(5, 20);
+	this.totalSymbols = round(random(5, 35));
+	this.speed = random(5, 22);
 
-	this.generateSymbols = function(){
-		var y = 0;
-		var x = width/2;
+	this.generateSymbols = function(x, y){
 
 		for(var i = 0; i <= this.totalSymbols; i++){
 			// 
