@@ -9,10 +9,9 @@ function setup(){
 	createCanvas(window.innerWidth, window.innerHeight);
 	background(0);
 	var x = 0;
-	var y = 0;
 	for(var i = 0; i <= width / symbolSize; i++){
 		var stream = new Stream();
-		stream.generateSymbols(x, y);
+		stream.generateSymbols(x, random(-1000, 0));
 		streams.push(stream);
 		x += symbolSize;
 	}
@@ -20,20 +19,21 @@ function setup(){
 }
 
 function draw(){
-	background(0);
+	background(0, 150);
 	//
 	streams.forEach(function(stream){
 		stream.appear();
 	});
 }
 
-function Symbol(x, y, speed){
+function Symbol(x, y, speed, first){
 	// 
 	this.x = x;
 	this.y = y;
 	this.value;
 	this.speed = speed;
 	this.switchInterval = round(random(2, 20));
+	this.first = first;
 
 	this.randomSymbol = function(){
 		// Draws from the Katakana Unciode block (96 characters)
@@ -65,14 +65,18 @@ function Stream(){
 	this.speed = random(5, 22);
 
 	this.generateSymbols = function(x, y){
-
+		// Get a random number - either 0 or 1 - and evauate if this number is equal to 1
+		// If it is, the whole expression will become true
+		// 50% chance the first number in the stream will have a brighter hue
+		var first = round(random(0, 1)) == 1;
 		for(var i = 0; i <= this.totalSymbols; i++){
 			// 
-			symbol = new Symbol(x, y, this.speed);
+			symbol = new Symbol(x, y, this.speed, first);
 			symbol.randomSymbol();
 			this.symbols.push(symbol);
-
 			y -= symbolSize;
+			//
+			first = false;
 		}
 	}
 
@@ -80,7 +84,11 @@ function Stream(){
 		//
 		// Invoked in the draw function
 		this.symbols.forEach(function(symbol){
-			fill(0, 255, 60);
+			if(symbol.first){
+				fill(180, 255, 180);
+			} else {
+				fill (0, 255, 60);
+			}
 			text(symbol.value, symbol.x, symbol.y);
 			symbol.rain();
 			symbol.randomSymbol();
