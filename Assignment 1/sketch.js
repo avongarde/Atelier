@@ -21,14 +21,14 @@ function setup(){
 
 function draw(){
 	background(0, 150);
-	//
+	// The forEach() method will execute the stream function once for each streams array element
 	streams.forEach(function(stream){
 		stream.appear();
 	});
 }
 
 function Symbol(x, y, speed, first){
-	// 
+	// Defining the parameters for each symbol (size, speed at which they fall, and if it is the first in a stream)
 	this.x = x;
 	this.y = y;
 	this.value;
@@ -58,7 +58,7 @@ function Symbol(x, y, speed, first){
 
 	this.rain = function(){
 		// Increment the y position of the symbol object according to the speed
-		// 
+		// After the stream ends, restart from the top
 		if(this.y >= height){
 			this.y = 0;
 		} else {
@@ -68,29 +68,32 @@ function Symbol(x, y, speed, first){
 }
 
 function Stream(){
-	//
+	// Creating the array for the screen to be populated with symbols
 	this.symbols = [];
+	// Each stream will contain a random number of symbols between 5 and 35
 	this.totalSymbols = round(random(5, 35));
+	// Each stream will vary in speed between 2 and 12
 	this.speed = random(2, 12);
 
 	this.generateSymbols = function(x, y){
 		// Get a random number - from 0 to 4 - and evauate if this number is equal to 1
 		// If it is, the whole expression will become true
-		// 20% chance the first number in the stream will have a brighter hue
+		// 20% chance the first number in the stream will have a brighter hue and lower alpha
 		var first = round(random(0, 4)) == 1;
 		for(var i = 0; i <= this.totalSymbols; i++){
-			// 
+			// Create a local variable thats equal to a new symbol, then pass it x, y, speed, and first valuess
 			symbol = new Symbol(x, y, this.speed, first);
 			symbol.randomSymbol();
 			this.symbols.push(symbol);
+			// Position each symbol directly under the previous one
 			y -= symbolSize;
-			//
+			// Makes sure that only the first symbol in the stream is set to first
 			first = false;
 		}
 	}
 
 	this.appear = function(){
-		//
+		// Excute the symbol function for each each element in the symbols array
 		// Invoked in the draw function
 		this.symbols.forEach(function(symbol){
 			if(symbol.first){
