@@ -1,15 +1,15 @@
 // Francisco Samayoa ~ Matrix Digital Rain
 // References https://www.youtube.com/watch?v=S1TQCi9axzg&t=13s
 
-var x = 0;
 var globalX = 0;
 var symbolSize = 20;
 var streams = [];
 
 function setup(){
 	createCanvas(window.innerWidth, window.innerHeight);
+
 	background(0);
-	// var x = 0;
+	var x = 0;
 	for(var i = 0; i <= width / symbolSize; i++){
 		var stream = new Stream();
 		stream.generateSymbols(x, random(-1000, 0));
