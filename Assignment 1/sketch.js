@@ -1,13 +1,15 @@
 // Francisco Samayoa ~ Matrix Digital Rain
 // References https://www.youtube.com/watch?v=S1TQCi9axzg&t=13s
 
+var x = 0;
+var globalX = 0;
 var symbolSize = 20;
 var streams = [];
 
 function setup(){
 	createCanvas(window.innerWidth, window.innerHeight);
 	background(0);
-	var x = 0;
+	// var x = 0;
 	for(var i = 0; i <= width / symbolSize; i++){
 		var stream = new Stream();
 		stream.generateSymbols(x, random(-1000, 0));
@@ -20,10 +22,12 @@ function setup(){
 }
 
 function draw(){
+	// The x position of each stream will increase by 0.1
+	globalX += 0.1; 
 	background(0, 150);
 	// The forEach() method will execute the stream function once for each streams array element
 	streams.forEach(function(stream){
-		stream.appear();
+		stream.appear();		
 	});
 }
 
@@ -93,8 +97,10 @@ function Stream(){
 	}
 
 	this.appear = function(){
-		// Excute the symbol function for each each element in the symbols array
 		// Invoked in the draw function
+		// MouseX will control the space between each stream
+		translate(map(mouseX, 0, window.innerWidth, 0, globalX), 0);
+		// Excute the symbol function for each each element in the symbols array
 		this.symbols.forEach(function(symbol){
 			if(symbol.first){
 				// Using the map function the incoming mouseX value will be re-mapped from the width to the fill colour
