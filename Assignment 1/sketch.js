@@ -62,13 +62,13 @@ function Stream(){
 	//
 	this.symbols = [];
 	this.totalSymbols = round(random(5, 35));
-	this.speed = random(5, 22);
+	this.speed = random(2, 12);
 
 	this.generateSymbols = function(x, y){
-		// Get a random number - either 0 or 1 - and evauate if this number is equal to 1
+		// Get a random number - from 0 to 4 - and evauate if this number is equal to 1
 		// If it is, the whole expression will become true
-		// 50% chance the first number in the stream will have a brighter hue
-		var first = round(random(0, 1)) == 1;
+		// 20% chance the first number in the stream will have a brighter hue
+		var first = round(random(0, 4)) == 1;
 		for(var i = 0; i <= this.totalSymbols; i++){
 			// 
 			symbol = new Symbol(x, y, this.speed, first);
