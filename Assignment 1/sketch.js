@@ -1,7 +1,6 @@
 // Francisco Samayoa ~ Matrix Digital Rain
 // References https://www.youtube.com/watch?v=S1TQCi9axzg&t=13s
 
-// var symbol;
 var symbolSize = 20;
 var streams = [];
 
@@ -15,6 +14,8 @@ function setup(){
 		streams.push(stream);
 		x += symbolSize;
 	}
+	// Introduce a 'web-safe font' for some variation
+	textFont('Verdana');
 	textSize(symbolSize); 
 }
 
