@@ -36,15 +36,23 @@ function Symbol(x, y, speed, first){
 	this.first = first;
 
 	this.randomSymbol = function(){
-		// Draws from the Katakana Unciode block (96 characters)
+		var charType = round(random(0, 5));
+		// Draws from the Katakana Unciode block (96 characters) & Katakana Phonetic Extensions
 		// https://en.wikipedia.org/wiki/Katakana_(Unicode_block)
+		// https://en.wikipedia.org/wiki/Katakana_Phonetic_Extensions
 
 		// Whenever this.switchInterval divides evenly into frameCount then execute
 		if(frameCount % this.switchInterval == 0){
-			// 0x030A0 (12448) will be added to a random whole between 0 and 96 
-			// Converted to a string and set to this.value
-			this.value = String.fromCharCode(0x30A0 + round(random(0, 96)));
-		}
+			if(charType >= 3){
+				// 0x030A0 (12448) will be added to a random whole between 0 and 96 
+				// Converted to a string and set to this.value
+				this.value = String.fromCharCode(0x30A0 + round(random(0, 96)));
+			} else if(charType >= 1){
+				this.value = String.fromCharCode(0x31F0 + round(random(0, 10)));
+			} else {
+				this.value = String.fromCharCode(0x31FA + round(random(0, 6)));
+			}
+		} 
 	}
 
 	this.rain = function(){
@@ -85,9 +93,10 @@ function Stream(){
 		// Invoked in the draw function
 		this.symbols.forEach(function(symbol){
 			if(symbol.first){
-				fill(180, 255, 180);
+				// Using the map function the incoming mouseX value will be re-mapped from the width to the fill colour
+				fill (map(mouseX, 0, window.innerWidth, 0, 225), map(mouseX, 0, window.innerWidth, 225, 0), 0, 100);
 			} else {
-				fill (0, 255, 60);
+				fill (map(mouseX, 0, window.innerWidth, 0, 255), map(mouseX, 0, window.innerWidth, 255, 0), 0);
 			}
 			text(symbol.value, symbol.x, symbol.y);
 			symbol.rain();
